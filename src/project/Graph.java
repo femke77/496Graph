@@ -9,7 +9,6 @@ public class Graph {
 	private int nVertices;
 	private int nEdges;
 	private int totalEdgeWeight;
-	
 
 	// creates Graph from data in file
 	public Graph(String inputFileName) {
@@ -17,10 +16,10 @@ public class Graph {
 		File file = new File(inputFileName);
 		try {
 			Scanner scan = new Scanner(file);
-			nVertices = scan.nextInt(); 
+			nVertices = scan.nextInt();
 			adjList = new ArrayList[nVertices];
 			for (int i = 0; i < nVertices; i++) {
-				adjList[i] = new ArrayList<EdgeNode>(); 
+				adjList[i] = new ArrayList<EdgeNode>();
 			}
 			int v1, v2, w;
 			while (scan.hasNext()) {
@@ -42,8 +41,9 @@ public class Graph {
 		nEdges = 0;
 	}
 
+	// add *undirected* edges to graph
 	public void addEdge(int i, int j, int weight) {
-		
+
 		adjList[i].add(new EdgeNode(i, j, weight));
 		adjList[j].add(new EdgeNode(j, i, weight));
 		totalEdgeWeight += weight;
@@ -51,8 +51,12 @@ public class Graph {
 	}
 
 	public void printGraph() {
-		// prints nVertices, nEdges, and adjacency lists and total edge weight
-		// See format below in item 6.
+		System.out.println("\nGraph: Number of Vertices = " + get_nVertices() + "\tNumber of Edges = " + get_nEdges()
+				+ "\tTotal Edge Weight = " + get_TotalWeightOfEdges() +"\nAdjacenty Lists: ");
+		for(int i = 0; i < get_nVertices(); i++){
+			System.out.println("vertex = "+ i +"   "+adjList[i].toString());
+		}
+		
 	}
 
 	public int get_nVertices() {
@@ -66,44 +70,37 @@ public class Graph {
 	public int get_TotalWeightOfEdges() {
 		return totalEdgeWeight;
 	}
-/*
-	
-	public Graph dfsTraversal(int start) {
-		/*
-		 * Use recursion by calling a recursive dfs method. Visit all nodes. If
-		 * graph is not connected you will need to call dfs more than once to
-		 * visit all nodes .
-		 * 
-		 * Print the following information gleaned from the dfs traversal 
-		 * Print nodes in order visited  Connected? ____  NumberOfComponents?
-		 * _____  Has a cycle? _______ If the graph is connected, return the
-		 * spanning tree from the dfs traversal. Otherwise, return null.
-		 *
-	}
-
-	public void dijkstraShortestPaths(int start) {
-		/*
-		 * Implement Dijkstra algorithm from text or class; Use the Java
-		 * PriorityQueue<PQNode> class. Use PQNode class below. The Java
-		 * PriorityQueue class has no updateKey method. For our problem, just
-		 * add a new updated node to the priority queue. This will work for
-		 * Dijkstra’s algorithm since the new node has a smaller priority than
-		 * the node you want to update. See Problem C-14.3 in text. An
-		 * alternative is to remove the old node and add a new node.
-		 * 
-		 * Print shortest paths from vertex start to all other vertices
-		 * reachable from start. Use format from class.
-		 *}
-         
-	public Graph kruskalMST() {
-		/*
-		 * Implement Kruskal algorithm from text or class. You may assume that
-		 * the graph is connected. You may sort the edges or use a priority
-		 * queue. Use clusters. Print the edges of the MST found and its total
-		 * weight Return the minimum spanning tree as a Graph
-		 *
-	}
-    */
+	/*
+	 * 
+	 * public Graph dfsTraversal(int start) { /* Use recursion by calling a
+	 * recursive dfs method. Visit all nodes. If graph is not connected you will
+	 * need to call dfs more than once to visit all nodes .
+	 * 
+	 * Print the following information gleaned from the dfs traversal  Print
+	 * nodes in order visited  Connected? ____  NumberOfComponents? _____ 
+	 * Has a cycle? _______ If the graph is connected, return the spanning tree
+	 * from the dfs traversal. Otherwise, return null.
+	 *
+	 * }
+	 * 
+	 * public void dijkstraShortestPaths(int start) { /* Implement Dijkstra
+	 * algorithm from text or class; Use the Java PriorityQueue<PQNode> class.
+	 * Use PQNode class below. The Java PriorityQueue class has no updateKey
+	 * method. For our problem, just add a new updated node to the priority
+	 * queue. This will work for Dijkstra’s algorithm since the new node has a
+	 * smaller priority than the node you want to update. See Problem C-14.3 in
+	 * text. An alternative is to remove the old node and add a new node.
+	 * 
+	 * Print shortest paths from vertex start to all other vertices reachable
+	 * from start. Use format from class. }
+	 * 
+	 * public Graph kruskalMST() { /* Implement Kruskal algorithm from text or
+	 * class. You may assume that the graph is connected. You may sort the edges
+	 * or use a priority queue. Use clusters. Print the edges of the MST found
+	 * and its total weight Return the minimum spanning tree as a Graph
+	 *
+	 * }
+	 */
 }// end class Graph
 
 class EdgeNode implements Comparable<EdgeNode> {
