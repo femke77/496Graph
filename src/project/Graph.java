@@ -11,6 +11,7 @@ public class Graph {
 	private int totalEdgeWeight;
 
 	// creates Graph from data in file
+	@SuppressWarnings("unchecked")
 	public Graph(String inputFileName) {
 
 		File file = new File(inputFileName);
@@ -36,7 +37,10 @@ public class Graph {
 
 	// Creates a Graph with n vertices and 0 edges
 	public Graph(int n) {
-
+		adjList = new ArrayList[n];
+		for (int i = 0; i < n; i++) {
+			adjList[i] = new ArrayList<EdgeNode>();
+		}
 		nVertices = n;
 		nEdges = 0;
 	}
@@ -52,11 +56,11 @@ public class Graph {
 
 	public void printGraph() {
 		System.out.println("\nGraph: Number of Vertices = " + get_nVertices() + "\tNumber of Edges = " + get_nEdges()
-				+ "\tTotal Edge Weight = " + get_TotalWeightOfEdges() +"\nAdjacenty Lists: ");
-		for(int i = 0; i < get_nVertices(); i++){
-			System.out.println("vertex = "+ i +"   "+adjList[i].toString());
+				+ "\tTotal Edge Weight = " + get_TotalWeightOfEdges() + "\nAdjacenty Lists: ");
+		for (int i = 0; i < get_nVertices(); i++) {
+			System.out.println("vertex = " + i + "   " + adjList[i].toString());
 		}
-		
+
 	}
 
 	public int get_nVertices() {
@@ -70,6 +74,7 @@ public class Graph {
 	public int get_TotalWeightOfEdges() {
 		return totalEdgeWeight;
 	}
+
 	/*
 	 * 
 	 * public Graph dfsTraversal(int start) { /* Use recursion by calling a
@@ -82,25 +87,61 @@ public class Graph {
 	 * from the dfs traversal. Otherwise, return null.
 	 *
 	 * }
-	 * 
-	 * public void dijkstraShortestPaths(int start) { /* Implement Dijkstra
-	 * algorithm from text or class; Use the Java PriorityQueue<PQNode> class.
-	 * Use PQNode class below. The Java PriorityQueue class has no updateKey
-	 * method. For our problem, just add a new updated node to the priority
-	 * queue. This will work for Dijkstra’s algorithm since the new node has a
-	 * smaller priority than the node you want to update. See Problem C-14.3 in
-	 * text. An alternative is to remove the old node and add a new node.
-	 * 
-	 * Print shortest paths from vertex start to all other vertices reachable
-	 * from start. Use format from class. }
-	 * 
-	 * public Graph kruskalMST() { /* Implement Kruskal algorithm from text or
-	 * class. You may assume that the graph is connected. You may sort the edges
-	 * or use a priority queue. Use clusters. Print the edges of the MST found
-	 * and its total weight Return the minimum spanning tree as a Graph
-	 *
-	 * }
 	 */
+	
+	 public void dijkstraShortestPaths(int start){
+		 
+		 
+		 
+		 
+		 
+	 }
+	 
+	
+    //Kruskal's algorithm for MST implements clusters as an array of linked-lists with an addition names array that memoizes locations of 
+	//vertices. Integer objects are aliases for vertices in the linked-lists. A java PQ allows consideration by increasing weight - 
+	//ties are handled arbitrarily. If edge weights are not unique, different MSTs MAY result. 
+	public Graph kruskalMST() {
+		
+		Graph mst = new Graph(nVertices);		
+		LinkedList<Integer>[] cluster = new LinkedList[nVertices];
+        int[] names = new int[nVertices];
+		for (int i = 0; i < nVertices; i++) {
+            names[i] = i;
+			cluster[i] = new LinkedList<Integer>();
+			cluster[i].add(i);
+		}
+		PriorityQueue<EdgeNode> pq = new PriorityQueue<EdgeNode>();
+		for (int i = 0; i < nVertices; i++) {
+			pq.addAll(adjList[i]);
+		}
+		while (mst.nEdges < nEdges - 1) {
+			EdgeNode temp = pq.poll();
+			int u = temp.vertex1;
+			int v = temp.vertex2;
+			int indexu, indexv;
+			indexu = names[u];  //check the names array to find location of u and v
+			indexv = names[v];		
+			if (names[indexu] != names[indexv]) {  //if these values != then they reside in different clusters
+				mst.addEdge(u, v, temp.weight);				
+				if (cluster[indexu].size() > cluster[indexv].size()) {
+					for (int i = 0; i < cluster[indexv].size(); i++) {
+						int vertex = cluster[indexv].remove(i); //remove a vertex from old cluster
+						cluster[indexu].add(vertex); //add it to the new cluster
+						names[vertex] = indexu; //go to its names memo and update its location
+					}
+				} else {
+					for (int i = 0; i < cluster[indexu].size(); i++) {
+						int vertex = cluster[indexu].remove(i); 
+						cluster[indexv].add(vertex); 
+						names[vertex] = indexv; 						
+					}
+				}
+			}
+		}       
+		return mst;
+	}
+
 }// end class Graph
 
 class EdgeNode implements Comparable<EdgeNode> {
