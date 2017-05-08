@@ -10,7 +10,7 @@ public class Driver {
 		g1.printGraph();
 
 		// -----------------------------------------------
-/*
+
 		int v = 0;
 		System.out.println("\nDFS Traversal starting at " + v);
 		Graph tree = g1.dfsTraversal(v);
@@ -18,19 +18,22 @@ public class Driver {
 			System.out.println("\nDFS Spanning Tree ");
 			tree.printGraph();
 		}
-*/
+
 		// -----------------------------------------------
-		
+/*		
 		System.out.println("\nDijkstra SP");
 		int start = 4;
 		g1.dijkstraShortestPaths(start);
-
+*/
 		// -----------------------------------------------------
-		/*
-		 * System.out.println("\nKruskal's MST "); Graph treeKruskal =
-		 * g1.kruskalMST(); if (treeKruskal != null) {
-		 * System.out.println("\nMST Tree"); treeKruskal.printGraph(); }
-		 */
+/*
+		System.out.println("\nKruskal's MST "); 
+		Graph treeKruskal = g1.kruskalMST(); 
+		if (treeKruskal != null) {
+			System.out.println("\nMST Tree"); 
+			treeKruskal.printGraph(); 
+		}
+*/
 	}
 
 }
