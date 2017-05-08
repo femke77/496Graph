@@ -76,7 +76,6 @@ public class Graph {
 	}
 
 	/*
-	 * 
 	 * public Graph dfsTraversal(int start) { /* Use recursion by calling a
 	 * recursive dfs method. Visit all nodes. If graph is not connected you will
 	 * need to call dfs more than once to visit all nodes .
@@ -85,16 +84,50 @@ public class Graph {
 	 * nodes in order visited  Connected? ____  NumberOfComponents? _____ 
 	 * Has a cycle? _______ If the graph is connected, return the spanning tree
 	 * from the dfs traversal. Otherwise, return null.
-	 *
 	 * }
 	 */
 	
 	 public void dijkstraShortestPaths(int start){
+		 PriorityQueue<PQNode> pq = new PriorityQueue<PQNode>();
+		 int[] distance = new int[nVertices];
+		 int[] parent = new int[nVertices];
+		 int[] s = new int[nVertices];
 		 
+		 for (int i = 0; i < nVertices; i++){
+			 distance[i] = 1000000;
+			 parent[i] = -1;
+			 s[i] = 0;
+			 if(i == start)
+				 pq.add(new PQNode(i, 0));			 
+			 else
+				 pq.add(new PQNode(i, distance[i]));			 			 
+		 }
+		 distance[start] = 0;
 		 
-		 
-		 
-		 
+		 while (!pq.isEmpty()){
+			 PQNode temp = pq.poll();  //remove the min node, will automatically grab the start vertex
+			 int u = temp.vertex;
+			 s[u] = 1;  
+			 //look at each edge that originates from vertex u
+			 for (int i = 0; i < adjList[u].size(); i++){
+				 int z = adjList[u].get(i).vertex2;
+				 int w = adjList[u].get(i).weight;
+				 if (s[z] == 0){ //check if vertex is already included
+					 if (distance[z] > distance[u] + w){
+						 distance[z] = distance[u] + w;
+						 parent[z] = u;
+						 pq.add(new PQNode(z,distance[z])); //update the distance
+						 
+					 }
+					 
+				 }
+				 
+			 }
+			 
+			 
+		 }
+		 System.out.println("Distance: "+Arrays.toString(distance));
+		 System.out.print("From: "+Arrays.toString(parent));
 	 }
 	 
 	
@@ -115,11 +148,11 @@ public class Graph {
 		for (int i = 0; i < nVertices; i++) {
 			pq.addAll(adjList[i]);
 		}
-		while (mst.nEdges < nEdges - 1) {
+		int u, v, indexu, indexv;
+		while ((mst.nEdges < nEdges - 1) & (!pq.isEmpty())) {
 			EdgeNode temp = pq.poll();
-			int u = temp.vertex1;
-			int v = temp.vertex2;
-			int indexu, indexv;
+			u = temp.vertex1;
+			v = temp.vertex2;
 			indexu = names[u];  //check the names array to find location of u and v
 			indexv = names[v];		
 			if (names[indexu] != names[indexv]) {  //if these values != then they reside in different clusters
