@@ -115,10 +115,9 @@ public class Graph {
 			 }			 
 		 }
 		 System.out.println("Distance: "+Arrays.toString(distance));
-		 System.out.print("From: "+Arrays.toString(parent));
+		 System.out.println("From: "+Arrays.toString(parent));
 	 }
 	 
-	
     //Kruskal's algorithm for MST implements clusters as an array of linked-lists with an addition names array that memoizes locations of 
 	//vertices. Integer objects are aliases for vertices in the linked-lists. A java PQ allows for consideration by increasing weight - 
 	//ties are handled arbitrarily. If edge weights are not unique, different MSTs MAY result. 
@@ -280,6 +279,4 @@ class PQNode implements Comparable<PQNode> {
 
 }// end class PQNode
 
-//PERSONAL: anything passed by reference will update and be usable in original after recursive helper method finishes, 
-//but a primitive type can only be passed? when i tried to pass int cycle to helper, change it in helper, and use it again 
-//in original method, it failed. but my arrays work fine. check on this later. 
+
